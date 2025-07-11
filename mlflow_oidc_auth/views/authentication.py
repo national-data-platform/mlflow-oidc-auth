@@ -19,7 +19,7 @@ def login():
 
 def logout():
     session.clear()
-    if config.AUTOMATIC_LOGIN_REDIRECT:
+    if config.AUTOMATIC_LOGIN_REDIRECT and config.USE_UI_ADDON:
         return render_template(
             "auth.html",
             username=None,
@@ -40,4 +40,8 @@ def callback():
             error_messages=errors,
         )
     session["username"] = email
-    return redirect(url_for("oidc_ui"))
+
+    if config.USE_UI_ADDON:
+        return redirect(url_for("oidc_ui"))
+    else:
+        return redirect("/")

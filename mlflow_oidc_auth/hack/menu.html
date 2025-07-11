@@ -46,8 +46,10 @@
                 return linkElement;
             }
             parentDiv.appendChild(createLinkElement(username, '#'));
-            parentDiv.appendChild(createLinkElement('Permissions', oidcLink));
-            parentDiv.appendChild(createLinkElement('Logout', logoutLink));
+            if (window.USE_UI_ADDON){
+                parentDiv.appendChild(createLinkElement('Permissions', oidcLink));
+                parentDiv.appendChild(createLinkElement('Logout', logoutLink));
+            }
         }
         // Get username and add links after Docs
         makeRequest("api/2.0/mlflow/permissions/users/current", function (error, response) {

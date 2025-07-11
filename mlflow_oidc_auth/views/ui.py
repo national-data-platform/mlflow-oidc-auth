@@ -1,6 +1,7 @@
 import os
 
 from flask import Response, send_from_directory
+from mlflow_oidc_auth.config import config
 
 
 def oidc_static(filename):
@@ -36,7 +37,9 @@ def index():
             html_content = f.read()
             with open(os.path.join(os.path.dirname(__file__), "..", "hack", "menu.html"), "r") as js_file:
                 js_injection = js_file.read()
-                modified_html_content = html_content.replace("</body>", f"{js_injection}\n</body>")
+                USE_UI_ADDON =  config.USE_UI_ADDON
+                env_script = f'<script>window.USE_UI_ADDON = {str(USE_UI_ADDON).lower()};</script>'
+                modified_html_content = html_content.replace("</body>", f"{env_script}\n{js_injection}\n</body>")
                 return modified_html_content
 
     return Response(text_notfound, mimetype="text/plain")
