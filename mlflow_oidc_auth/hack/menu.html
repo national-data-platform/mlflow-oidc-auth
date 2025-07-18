@@ -1,4 +1,11 @@
 <script>
+    function getBasePath() {
+        const path = window.location.pathname;
+        const match = path.match(/^\/[^/]+/);
+        return match ? match[0] : '';
+    }
+
+    const BASE_PATH = getBasePath();
     function makeRequest(url, callback) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
@@ -10,7 +17,7 @@
                 }
             }
         };
-        xhr.open("GET", url, true);
+        xhr.open("GET", BASE_PATH.replace(/\/$/, "") + "/" + url.replace(/^\//, ""), true);
         xhr.send();
     }
 
@@ -58,8 +65,8 @@
                 return;
             }
             var username = response.display_name;
-            var oidcLink = "/oidc/ui/";
-            var logoutLink = "/logout";
+            var oidcLink = BASE_PATH + "/oidc/ui/";
+            var logoutLink = BASE_PATH +  "/logout";
             waitForDocsLink(function(docsLink) {
                 addLinks(username, oidcLink, logoutLink, docsLink);
             });

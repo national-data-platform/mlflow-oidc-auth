@@ -2,6 +2,7 @@ import os
 
 from flask_caching import Cache
 from flask_session import Session
+from werkzeug.middleware.proxy_fix import ProxyFix
 from mlflow.server import app
 
 from mlflow_oidc_auth import routes, views
@@ -168,6 +169,9 @@ app.add_url_rule(rule=routes.GROUP_PROMPT_PATTERN_PERMISSION_DETAIL, methods=["D
 # Add new hooks
 app.before_request(before_request_hook)
 app.after_request(after_request_hook)
+
+# Add for reverse proxy support
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
 # Set up session
 Session(app)

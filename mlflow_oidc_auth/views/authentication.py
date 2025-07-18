@@ -44,4 +44,4 @@ def callback():
     if config.USE_UI_ADDON:
         return redirect(url_for("oidc_ui"))
     else:
-        return redirect("/")
+        return redirect(url_for("serve", _external=True))
