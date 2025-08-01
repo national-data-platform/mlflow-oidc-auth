@@ -37,6 +37,7 @@ class AppConfig:
 
         # session
         self.SESSION_TYPE = os.environ.get("SESSION_TYPE", "cachelib")
+        self.SESSION_COOKIE_SECURE = get_bool_env_variable("SESSION_COOKIE_SECURE",False)
         self.SESSION_PERMANENT = get_bool_env_variable("SESSION_PERMANENT", False)
         self.SESSION_KEY_PREFIX = os.environ.get("SESSION_KEY_PREFIX", "mlflow_oidc:")
         self.PERMANENT_SESSION_LIFETIME = os.environ.get("PERMANENT_SESSION_LIFETIME", 86400)

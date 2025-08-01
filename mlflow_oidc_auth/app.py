@@ -15,6 +15,7 @@ template_dir = os.path.join(template_dir, "templates")
 
 app.config.from_object(config)
 app.secret_key = app.config["SECRET_KEY"].encode("utf8")
+app.config["SESSION_COOKIE_SECURE"] = app.config["SESSION_COOKIE_SECURE"]
 app.template_folder = template_dir
 static_folder = app.static_folder
 
